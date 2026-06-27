@@ -28,25 +28,27 @@ app.post('/weather', async (req, res) => {
     `, [d.station_id]);
 
     // Insert weather reading
-    await pool.query(`
-      INSERT INTO weather_readings (
-        station_id, temperature_c, humidity, wind_dir_deg,
-        wind_avg_ms, wind_max_ms, rain_mm, uvi, light_lux,
-        battery_mv, rssi
-      ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
-    `, [
-      d.station_id,
-      d.temperature_c,
-      d.humidity,
-      d.wind_dir_deg,
-      d.wind_avg_ms,
-      d.wind_max_ms,
-      d.rain_mm,
-      d.uvi,
-      d.light_lux,
-      d.battery_mv,
-      d.rssi
-    ]);
+   await pool.query(`
+  INSERT INTO weather_readings (
+    station_id, temperature_c, humidity, wind_dir_deg,
+    wind_avg_ms, wind_max_ms, rain_mm, uvi, light_lux,
+    battery_mv, rssi, esp_battery_v, solar_v
+  ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)
+`, [
+  d.station_id,
+  d.temperature_c,
+  d.humidity,
+  d.wind_dir_deg,
+  d.wind_avg_ms,
+  d.wind_max_ms,
+  d.rain_mm,
+  d.uvi,
+  d.light_lux,
+  d.battery_mv,
+  d.rssi,
+  d.esp_battery_v,
+  d.solar_v
+]);
 
     res.status(201).json({ status: 'ok' });
   } catch (err) {
